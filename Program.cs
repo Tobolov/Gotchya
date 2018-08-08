@@ -25,12 +25,17 @@ namespace Gotchya
         static int WINDOW_NAME_TIME = 4;
         static int WINDOW_NAME_LENGTH = 70;
         static int SCREEN_BLEED_DELAY = 25;
-        static int SCREEN_BLEED_FRAMES = 500;
+        static int SCREEN_BLEED_FRAMES = 150;
 
         private static IKeyboardMouseEvents GlobalHook;
 
         static void Main(string[] args) {
-            //ScreenBleed.Run();
+            int scale = 1000;
+            int x = 60;
+            int y = 10;
+            Console.WriteLine(255 * Math.Exp(-(x * x / scale) - (y * y / scale)));
+            Console.Read();
+
             Thread.Sleep(DETONATOR_DELAY * 1000);
             ApplicationContext msgLoop = new ApplicationContext();
             GlobalHook = Hook.GlobalEvents();
@@ -92,7 +97,7 @@ namespace Gotchya
             //Screen Bleed
             Task screenBleedTask = Task.Run(() => {
                 Thread.Sleep(SCREEN_BLEED_DELAY * 1000);
-                ScreenBleed.Run(SCREEN_BLEED_FRAMES);
+                ScreenBleedHole.Run(SCREEN_BLEED_FRAMES);
             });
 
             mouseShakeTask.Wait();
