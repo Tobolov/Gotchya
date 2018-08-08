@@ -22,20 +22,14 @@ namespace Gotchya
         static int WINDOW_SHAKE_DELAY = 2;
         static int WINDOW_SHAKE_TIME = 4;
         static int WINDOW_NAME_DELAY = 2;
-        static int WINDOW_NAME_TIME = 4;
+        static int WINDOW_NAME_TIME = 1;
         static int WINDOW_NAME_LENGTH = 70;
-        static int SCREEN_BLEED_DELAY = 25;
+        static int SCREEN_BLEED_DELAY = 20;
         static int SCREEN_BLEED_FRAMES = 150;
 
         private static IKeyboardMouseEvents GlobalHook;
 
         static void Main(string[] args) {
-            int scale = 1000;
-            int x = 60;
-            int y = 10;
-            Console.WriteLine(255 * Math.Exp(-(x * x / scale) - (y * y / scale)));
-            Console.Read();
-
             Thread.Sleep(DETONATOR_DELAY * 1000);
             ApplicationContext msgLoop = new ApplicationContext();
             GlobalHook = Hook.GlobalEvents();
@@ -47,6 +41,25 @@ namespace Gotchya
                 Console.ReadKey();
                 Console.WriteLine("KEY READ");
             }
+        }
+
+        private static void SpeedTest() {
+            Stopwatch s = new Stopwatch();
+            s.Start();
+            ScreenBleedHoleOptimised.Run(100);
+            s.Stop();
+            Console.WriteLine("ScreenBleedHoleOptimised: " + s.ElapsedMilliseconds);
+            s.Reset();
+            s.Start();
+            ScreenBleedHoleOld.Run(100);
+            s.Stop();
+            Console.WriteLine("ScreenBleedHoleOld: " + s.ElapsedMilliseconds);
+            s.Reset();
+            s.Start();
+            ScreenBleedHoleStep.Run(100);
+            s.Stop();
+            Console.WriteLine("ScreenBleedHoleStep: " + s.ElapsedMilliseconds);
+            Console.Read();
         }
 
         private static void GlobalHook_KeyUp(object sender, KeyEventArgs e) {
@@ -97,7 +110,7 @@ namespace Gotchya
             //Screen Bleed
             Task screenBleedTask = Task.Run(() => {
                 Thread.Sleep(SCREEN_BLEED_DELAY * 1000);
-                ScreenBleedHole.Run(SCREEN_BLEED_FRAMES);
+                ScreenBleedHoleOptimised.Run(SCREEN_BLEED_FRAMES);
             });
 
             mouseShakeTask.Wait();

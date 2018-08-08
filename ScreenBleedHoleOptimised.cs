@@ -10,7 +10,7 @@ namespace Gotchya
     /// <summary>
     /// Performs an effect that makes the desktop appear that it is bleeding from a hole.
     /// </summary>
-    public static class ScreenBleedHole
+    public static class ScreenBleedHoleOptimised
     {
         public static void Run(int frames) {
             Bitmap screenshot = Desktop.Screenshot();

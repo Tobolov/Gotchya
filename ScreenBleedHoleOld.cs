@@ -10,7 +10,7 @@ namespace Gotchya
     /// <summary>
     /// Performs an effect that makes the desktop appear that it is bleeding from a hole.
     /// </summary>
-    public static class ScreenBleedHole
+    public static class ScreenBleedHoleOld
     {
         public static void Run(int frames) {
             Bitmap screenshot = Desktop.Screenshot();
@@ -39,12 +39,17 @@ namespace Gotchya
                         byte* currentLineScreenshot = ptrFirstPixelScreenshot + (y * screenshotData.Stride);
                         byte* currentLineCanvas = ptrFirstPixelCanvas + (y * canvasData.Stride);
                         for (int xBits = 0; xBits < widthInBytes; xBits = xBits + bytesPerPixel) {
-                            int xx = xBits / bytesPerPixel - w2;
-                            float factor = exp(-(xx * xx / scale) - (yy * yy / scale));
+                            int thisBlue = currentLineScreenshot[xBits];
+                            int thisGreen = currentLineScreenshot[xBits + 1];
+                            int thisRed = currentLineScreenshot[xBits + 2];
 
-                            currentLineCanvas[xBits] = (byte)(currentLineScreenshot[xBits] - (int)(lastBlue * factor));
-                            currentLineCanvas[xBits + 1] = (byte)(currentLineScreenshot[xBits + 1] - (int)(lastGreen * factor));
-                            currentLineCanvas[xBits + 2] = (byte)(currentLineScreenshot[xBits + 2] - (int)(lastRed * factor));
+                            int x = xBits / bytesPerPixel;
+                            int xx = x - w2;
+                            double factor = 1 * Math.Exp(-(xx * xx / scale) - (yy * yy / scale));
+
+                            currentLineCanvas[xBits] = (byte)Flattern(lastBlue, thisBlue, factor);
+                            currentLineCanvas[xBits + 1] = (byte)Flattern(lastGreen, thisGreen, factor);
+                            currentLineCanvas[xBits + 2] = (byte)Flattern(lastRed, thisRed, factor);
 
                             lastBlue = currentLineScreenshot[xBits];
                             lastGreen = currentLineScreenshot[xBits + 1];
@@ -60,14 +65,6 @@ namespace Gotchya
             mask.Close();
 
             Mouse.Move(15, Desktop.GetWidth() - 15);
-        }
-
-        //Math.Exp() approximate
-        private static float exp(float x) {
-            x = 1.0f + x / 256.0f;
-            x *= x; x *= x; x *= x; x *= x;
-            x *= x; x *= x; x *= x; x *= x;
-            return x;
         }
 
         private static int Flattern(int oldColor, int newColor, double factor) {

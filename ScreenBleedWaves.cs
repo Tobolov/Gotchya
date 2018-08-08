@@ -7,7 +7,7 @@ namespace Gotchya
 {
 
     /// <summary>
-    /// Performs an effect that makes the desktop appear that it is bleeding from a hole.
+    /// Performs an effect that makes the desktop appear that it is bleeding from a hole in waves.
     /// </summary>
     public static class ScreenBleedWave
     {

@@ -6,7 +6,7 @@ namespace Gotchya
 {
 
     /// <summary>
-    /// Performs an effect that makes the desktop appear that it is bleeding.
+    /// Performs an effect that makes the desktop appear that it is glitching.
     /// </summary>
     public static class ScreenBleed
     {
