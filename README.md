@@ -9,7 +9,7 @@ Instructions:
 5. If any key is pressed or mouse is moved before disarmed, the glitch will begin.
 6. Mouse will shake around, windows will shake around and window titles will appear to glitch (all for 5 seconds).
 7. Wait 15 seconds (they now think its over).
-8. The screen glitch kicks in (see below).
+8. The screen glitch kicks in and runs for _x_ time. This time depends on the speed of your pc. (see below).
 9. Program will disarm and close.
 
 ### Visual Examples
