@@ -14,3 +14,9 @@ Instructions:
 
 ### Visual Examples
 ![Example of the screen glitch](../master/demoimages/glitchdemo.gif)
+
+
+### Known Major Issues
+* Window shake and window title glitches only work on non-Windows service applications (e.g. Explorer, Task Manager) if run as administrator
+* First stage of glitches don't stop at same time
+* Screen glitch at the end may crash
